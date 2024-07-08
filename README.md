@@ -1,2 +1,4 @@
 # SuperSmashBlocks
-Personal Java swing game
+Personal Java swing game based off of Super Smash Bros
+
+
