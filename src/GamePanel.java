@@ -28,8 +28,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     JButton playerDownB;
     JButton playerLeftB;
     JButton playerRightB;
-    JButton playerLightAttackB;
-    JButton playerHeavyAttackB;
+    JButton playerNormalAttackB;
+    JButton playerSpecialAttackB;
     JButton confirmButton;
     JButton keyToBeReplaced;
     boolean buttonsCreated;
@@ -44,13 +44,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     //0=main platform, 1=left most platform, 2=right most platform, 3=top platform
     public static ArrayList<Rectangle> platforms;
 
-    //Attack animations
-    public static ArrayList<Attacks> allAttacks;
-    public static ArrayList<Animations> animations;
-
     public static final int PLATFORM1_Y = 511;
-    public static final int PLATFORM2_Y = 331;
-    public static final int PLATFORM3_Y = 151;
 
     //Player
     public static Players player1;
@@ -63,6 +57,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     boolean gameOver=false;
     long gameOverTimer;
     Image gameSet;
+    int startTimer;
+    boolean gameBegin=false;
+    JLabel startCountDown;
+
 
 
     GamePanel() {
@@ -81,10 +79,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
         buttons = new ArrayList<>();
         platforms = new ArrayList<>();
-
-        allAttacks = new ArrayList<>();
-        animations = new ArrayList<>();
-
 
         platforms.add(new Rectangle(100, 550, 1000, 15));
         platforms.add(new Rectangle(200, 370, 300, 15));
@@ -107,37 +101,44 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
         createButton(playerLeftB, 300, 275, 200, 50, "a", false);
         playerRightB = new JButton();
         createButton(playerRightB, 700, 275, 200, 50, "d", false);
-        playerLightAttackB = new JButton();
-        createButton(playerLightAttackB, 375, 425, 200, 50, "f", false);
-        playerHeavyAttackB = new JButton();
-        createButton(playerHeavyAttackB, 625, 425, 200, 50, "g", false);
+        playerNormalAttackB = new JButton();
+        createButton(playerNormalAttackB, 375, 425, 200, 50, "f", false);
+        playerSpecialAttackB = new JButton();
+        createButton(playerSpecialAttackB, 625, 425, 200, 50, "g", false);
         confirmButton = new JButton();
         createButton(confirmButton, 500, 500, 200, 50, "Confirm", false);
         buttons.add(playerJumpB);
         buttons.add(playerLeftB);
         buttons.add(playerDownB);
         buttons.add(playerRightB);
-        buttons.add(playerLightAttackB);
-        buttons.add(playerHeavyAttackB);
+        buttons.add(playerNormalAttackB);
+        buttons.add(playerSpecialAttackB);
 
         player1C.put(playerJumpB, 87);
         player1C.put(playerLeftB, 65);
         player1C.put(playerDownB, 83);
         player1C.put(playerRightB, 68);
-        player1C.put(playerLightAttackB, 70);
-        player1C.put(playerHeavyAttackB, 71);
+        player1C.put(playerNormalAttackB, 70);
+        player1C.put(playerSpecialAttackB, 71);
 
         player2C.put(playerJumpB, 38);
         player2C.put(playerLeftB, 37);
         player2C.put(playerDownB, 40);
         player2C.put(playerRightB, 39);
-        player2C.put(playerLightAttackB, 46);
-        player2C.put(playerHeavyAttackB, 44);
+        player2C.put(playerNormalAttackB, 46);
+        player2C.put(playerSpecialAttackB, 44);
 
         buttonsCreated = true;
 
         gameTitle=new ImageIcon("./resources/gameTitle.png").getImage();
         gameSet=new ImageIcon("./resources/gameSet.png").getImage();
+        startCountDown=new JLabel();
+        startCountDown.setIcon(new ImageIcon("./resources/321GO.gif"));
+        startCountDown.setBounds(0,0,1000,500);
+        startCountDown.setLocation(160,100);
+        startCountDown.setVisible(false);
+        this.add(startCountDown);
+
     }
 
     public void createButton(JButton button, int x, int y, int width, int height, String text, Boolean visibility) {
@@ -184,6 +185,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
                     player2.lives=3;
                     player1.damagePercent=0;
                     player2.damagePercent=0;
+                    player1.characterExpression.setVisible(false);
+                    player2.characterExpression.setVisible(false);
                 }
                 else if (System.currentTimeMillis()-gameOverTimer>3000){
                     String winner;
@@ -195,7 +198,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
                         winner="RED";
                         g2D.setPaint(Color.RED);
                     }
-                    g2D.fillRect(400,200,400,200);
+                    g2D.fillRect(400,240,400,100);
                     g.setColor(Color.YELLOW);
                     g.setFont(new Font("ComicSans", Font.BOLD, 35));
                     g.drawString("Winner: "+winner+" Player",425,300);
@@ -219,6 +222,27 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
                 g.drawString("Press any key to replace", 485, 200);
             }
         }
+        else if (movesOn){
+            g2D.fillRect(300, 100, 600, 500);
+            g.setFont(new Font("ComicSans", Font.BOLD, 20));
+            g.setColor(Color.ORANGE);
+            if (player1Controls){
+                g.drawString(KeyEvent.getKeyText(player1C.get(playerNormalAttackB))+" for light attack",525,210);
+                g.drawString(KeyEvent.getKeyText(player1C.get(playerSpecialAttackB))+" for special ranged attack",475,260);
+                g.drawString(KeyEvent.getKeyText(player1C.get(playerNormalAttackB))+" + "+KeyEvent.getKeyText(player1C.get(playerRightB))+" or "+KeyEvent.getKeyText(player1C.get(playerLeftB))+" for heavy side attack",455,310);
+                g.drawString(KeyEvent.getKeyText(player1C.get(playerNormalAttackB))+" + "+KeyEvent.getKeyText(player1C.get(playerJumpB))+" for heavy up attack",475,360);
+                g.drawString(KeyEvent.getKeyText(player1C.get(playerSpecialAttackB))+" + "+KeyEvent.getKeyText(player1C.get(playerJumpB))+" for aerial jump attack",470,410);
+                g.drawString(KeyEvent.getKeyText(player1C.get(playerSpecialAttackB))+" + "+KeyEvent.getKeyText(player1C.get(playerRightB))+" or "+KeyEvent.getKeyText(player1C.get(playerLeftB))+" for special side dash attack",420,460);
+            }
+            else{
+                g.drawString(KeyEvent.getKeyText(player2C.get(playerNormalAttackB))+" for light attack",525,210);
+                g.drawString(KeyEvent.getKeyText(player2C.get(playerSpecialAttackB))+" for special ranged attack",475,260);
+                g.drawString(KeyEvent.getKeyText(player2C.get(playerNormalAttackB))+" + "+KeyEvent.getKeyText(player1C.get(playerRightB))+" or "+KeyEvent.getKeyText(player1C.get(playerLeftB))+" for heavy side attack",455,310);
+                g.drawString(KeyEvent.getKeyText(player2C.get(playerNormalAttackB))+" + "+KeyEvent.getKeyText(player1C.get(playerJumpB))+" for heavy up attack",475,360);
+                g.drawString(KeyEvent.getKeyText(player2C.get(playerSpecialAttackB))+" + "+KeyEvent.getKeyText(player1C.get(playerJumpB))+" for aerial jump attack",470,410);
+                g.drawString(KeyEvent.getKeyText(player2C.get(playerSpecialAttackB))+" + "+KeyEvent.getKeyText(player1C.get(playerRightB))+" or "+KeyEvent.getKeyText(player1C.get(playerLeftB))+" for special side dash attack",420,460);
+            }
+        }
         else{
             g2D.drawImage(gameTitle,300,0,null);
         }
@@ -228,17 +252,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!gameOver) {
             if (keyReplacement) {
                 changeKeys2(keyToBeReplaced, e.getKeyCode());
             }
-            if (gameOn) {
+            if (gameBegin && !gameOver) {
                 player1.movePlayer(e.getKeyCode());
                 player2.movePlayer(e.getKeyCode());
 
             }
         }
-    }
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -249,99 +271,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     }
 
 
-    public void controlAnimation() {
-        for (int i = 0; i < allAttacks.size(); i++) {
-            if (allAttacks.get(i).attackType != 0) {
-                if (allAttacks.get(i).facingLeft) {
-                    animations.get(i).setLocation(animations.get(i).getX() - animations.get(i).attackSpeed, animations.get(i).getY());
-                } else {
-                    animations.get(i).setLocation(animations.get(i).getX() + animations.get(i).attackSpeed, animations.get(i).getY());
-                }
-                if (animations.get(i).playerNum == 1 && allAttacks.get(i).intersects(player2)) {
-                    takeDamage(2, allAttacks.get(i).attackType, allAttacks.get(i).facingLeft);
-                    if (allAttacks.get(i).attackType != 1) {
-                        this.remove(animations.get(i));
-                        animations.get(i).setVisible(false);
-                        animations.remove(i);
-                        player1.attacks.remove(allAttacks.get(i));
-                        allAttacks.remove(i);
-                        break;
-                    }
-                } else if (animations.get(i).playerNum == 2 && allAttacks.get(i).intersects(player1)) {
-                    takeDamage(1, allAttacks.get(i).attackType, allAttacks.get(i).facingLeft);
-                    if (allAttacks.get(i).attackType != 1) {
-                        this.remove(animations.get(i));
-                        animations.get(i).setVisible(false);
-                        animations.remove(i);
-                        player2.attacks.remove(allAttacks.get(i));
-                        allAttacks.remove(i);
-                        break;
-                    }
-                }
-            }
-            if (timeTracker > animations.get(i).animationExpireTime) {
-                if (animations.get(i).playerNum == 1) {
-                    player1.attacks.remove(allAttacks.get(i));
-                    player1.isAttacking = false;
-
-                } else if (animations.get(i).playerNum == 2) {
-                    player2.attacks.remove(allAttacks.get(i));
-                    player2.isAttacking = false;
-                }
-
-                this.remove(animations.get(i));
-                animations.get(i).setVisible(false);
-                animations.remove(animations.get(i));
-                allAttacks.remove(allAttacks.get(i));
-            }
-        }
-
-    }
-
-    public void takeDamage(int playerNum, int attackType, boolean hitDirection) {
-        if (attackType == 1) {
-            if (playerNum == 1 && !player1.isInvincible) {
-                player1.hitDirection = hitDirection;
-                if (player2.comboCount == 3) {
-                    player1.velocity = (int) (20 * (1 + (player1.damagePercent / 100.0)));
-                    player1.isStunned = true;
-                } else {
-                    player1.velocity = 5;
-                    player1.isStunned2 = true;
-                    player1.isStunned2Timer = timeTracker + 30;
-                }
-                player1.damagePercent += 2.5;
-                player1.isInvincible = true;
-                player1.invincibilityExpireTime = timeTracker + 20;
-            } else if (playerNum == 2 && !player2.isInvincible) {
-                player2.hitDirection = hitDirection;
-                if (player1.comboCount == 3) {
-                    player2.velocity = (int) (15 * (1 + (player2.damagePercent / 100.0)));
-                    player2.isStunned = true;
-                } else {
-                    player2.velocity = 5;
-                    player2.isStunned2 = true;
-                    player2.isStunned2Timer = timeTracker + 30;
-                }
-                player2.damagePercent += 2.5;
-                player2.isInvincible = true;
-                player2.invincibilityExpireTime = timeTracker + 20;
-            }
-        } else if (attackType == 2) {
-            if (playerNum == 1) {
-                player1.hitDirection = hitDirection;
-                player1.isStunned = true;
-                player1.velocity = (int) (15 * (1 + (player1.damagePercent / 100.0)));
-                player1.damagePercent += 6;
-            } else {
-                player2.hitDirection = hitDirection;
-                player2.isStunned = true;
-                player2.velocity = (int) (15 * (1 + (player2.damagePercent / 100.0)));
-                player2.damagePercent += 6;
-            }
-        }
-
-    }
 
 
     public void actionPerformed(ActionEvent e) {
@@ -349,15 +278,18 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
             buttonSelection(e);
         }
         controls(e);
+        moves(e);
         if (gameOn) {
             timeTracker++;
-            if (!gameOver) {
-                player1.move();
-                player2.move();
+            player1.move();
+            player2.move();
+            if (timeTracker>startTimer && !gameBegin){
+                gameBegin=true;
+                startCountDown.setVisible(false);
             }
-            player1.playerDeath();
-            player2.playerDeath();
-            controlAnimation();
+            else if (timeTracker<startTimer && !gameBegin){
+                startCountDown.setVisible(true);
+            }
         }
         repaint();
     }
@@ -365,15 +297,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
     public void buttonSelection(ActionEvent e) {
         if (e.getSource() == startButton) {
+            gameBegin=false;
             gameOn = true;
+            startTimer=timeTracker+300;
             if (!gameCreated) {
                 player1 = new Players(150, PLATFORM1_Y, 40, 40, 1, player1C, buttons);
                 player2 = new Players(1010, PLATFORM1_Y, 40, 40, 2, player2C, buttons);
+                player1.enemies.add(player2);
+                player2.enemies.add(player1);
             }
+            player1.characterExpression.setVisible(true);
+            player2.characterExpression.setVisible(true);
             player1.x=150;
             player2.x=1010;
             player1.y=400;
             player2.y=400;
+            player1.facingLeft=false;
+            player2.facingLeft=true;
             gameCreated=true;
         } else if (e.getSource() == controlsButton) {
             controlsOn = true;
@@ -450,6 +390,27 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
                     keyToBeReplaced = (JButton) e.getSource();
                 }
             }
+        }
+    }
+
+    public void moves(ActionEvent e){
+        if (movesOn){
+            confirmButton.setVisible(true);
+            if (player1Controls) {
+                playerSelector.setText("Player 1");
+            }
+            else{
+                playerSelector.setText("Player 2");
+            }
+            playerSelector.setVisible(true);
+            if (e.getSource() == playerSelector) {
+                player1Controls = !player1Controls;
+            }
+        }
+        if (e.getSource() == confirmButton) {
+            movesOn = false;
+            confirmButton.setVisible(false);
+            playerSelector.setVisible(false);
         }
     }
 
