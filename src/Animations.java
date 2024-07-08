@@ -15,39 +15,39 @@ public class Animations extends JLabel {
         this.playerNum = playerNum;
 
         if (attackType == 0) {
-            this.setIcon(new ImageIcon("./resources/doubleJump.gif"));
+            this.setIcon(new ImageIcon(getClass().getResource("/doubleJump.gif")));
             this.setLocation(x - 35, y - 15);
             this.setBounds(x - 35, y - 15, 100, 100);
             animationExpireTime = GamePanel.timeTracker + 25;
         } else if (attackType == 1) {
             if (!facingLeft) {
-                this.setIcon(new ImageIcon("./resources/lightAttackR.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/lightAttackR.gif")));
                 this.setBounds(x - 100, y - 130, 300, 300);
                 this.setLocation(x - 100, y - 130);
             } else {
-                this.setIcon(new ImageIcon("./resources/lightAttack.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/lightAttack.gif")));
                 this.setBounds(x - 180, y - 130, 300, 300);
                 this.setLocation(x - 180, y - 130);
             }
             animationExpireTime = GamePanel.timeTracker + 20;
         } else if (attackType == 2) {
             if (facingLeft) {
-                this.setIcon(new ImageIcon("./resources/special1R.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/special1R.gif")));
                 this.setLocation(x - 5, y - 30);
                 this.setBounds(x - 5, y - 30, 100, 100);
             } else {
-                this.setIcon(new ImageIcon("./resources/special1.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/special1.gif")));
                 this.setLocation(x - 25, y - 30);
                 this.setBounds(x - 25, y - 30, 100, 100);
             }
             animationExpireTime = GamePanel.timeTracker + 120;
         } else if (attackType == 3) {
-            this.setIcon(new ImageIcon("./resources/aerialSpecial.gif"));
+            this.setIcon(new ImageIcon(getClass().getResource("/aerialSpecial.gif")));
             this.setLocation(x - 85, y - 80);
             this.setBounds(x - 85, y - 80, 200, 200);
             animationExpireTime = GamePanel.timeTracker + 30;
         } else if (attackType == 4) {
-            this.setIcon(new ImageIcon("./resources/charging.gif"));
+            this.setIcon(new ImageIcon(getClass().getResource("/charging.gif")));
             if (facingLeft) {
                 this.setLocation(x - 10, y - 30);
                 this.setBounds(x - 10, y - 30, 100, 100);
@@ -69,15 +69,15 @@ public class Animations extends JLabel {
                 this.setLocation(x - 10, y - 80);
                 this.setBounds(x - 10, y - 80, 200, 200);
             }
-            this.setIcon(new ImageIcon("./resources/explosion.gif"));
+            this.setIcon(new ImageIcon(getClass().getResource("/explosion.gif")));
             animationExpireTime = GamePanel.timeTracker + 30;
         } else if (attackType == 6) {
             if (facingLeft) {
-                this.setIcon(new ImageIcon("./resources/swordL.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/swordL.gif")));
                 this.setLocation(x - 40, y - 50);
                 this.setBounds(x - 40, y - 50, 200, 200);
             } else {
-                this.setIcon(new ImageIcon("./resources/sword.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/sword.gif")));
                 this.setLocation(x - 115, y - 50);
                 this.setBounds(x - 115, y - 50, 200, 200);
             }
@@ -88,20 +88,20 @@ public class Animations extends JLabel {
                 GamePanel.player2.chargeAnimation.add(this);
             }
         } else if (attackType == 7) {
-            this.setIcon(new ImageIcon("./resources/slash.gif"));
+            this.setIcon(new ImageIcon(getClass().getResource("/slash.gif")));
             this.setLocation(x - 120, y - 200);
             this.setBounds(x - 120, y - 200, 300, 300);
             animationExpireTime = GamePanel.timeTracker + 30;
         } else if (attackType == 8) {
-            this.setIcon(new ImageIcon("./resources/fireBallAfterEffect.gif"));
+            this.setIcon(new ImageIcon(getClass().getResource("/fireBallAfterEffect.gif")));
             this.setLocation(x - 85, y - 80);
             this.setBounds(x - 85, y - 80, 200, 200);
             animationExpireTime = GamePanel.timeTracker + 20;
         } else if (attackType == 9) {
             if (facingLeft) {
-                this.setIcon(new ImageIcon("./resources/punchFinalL.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/punchFinalL.gif")));
             } else {
-                this.setIcon(new ImageIcon("./resources/punchFinal.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/punchFinal.gif")));
             }
             this.setLocation(x - 85, y - 80);
             this.setBounds(x - 85, y - 80, 200, 200);
@@ -109,11 +109,11 @@ public class Animations extends JLabel {
         }
         else if (attackType == 10) {
             if (facingLeft) {
-                this.setIcon(new ImageIcon("./resources/forwardSwordL.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/forwardSwordL.gif")));
                 this.setLocation(x - 40, y - 100);
                 this.setBounds(x - 40, y - 100, 200, 200);
             } else {
-                this.setIcon(new ImageIcon("./resources/forwardSword.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/forwardSword.gif")));
                 this.setLocation(x - 115, y - 100);
                 this.setBounds(x - 115, y - 100, 200, 200);
             }
@@ -126,12 +126,12 @@ public class Animations extends JLabel {
         }
         else if (attackType == 11) {
             if (facingLeft){
-                this.setIcon(new ImageIcon("./resources/forwardSlashL.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/forwardSlashL.gif")));
                 this.setLocation(x -375, y - 150);
                 this.setBounds(x -375, y - 150, 400, 300);
             }
             else {
-                this.setIcon(new ImageIcon("./resources/forwardSlash.gif"));
+                this.setIcon(new ImageIcon(getClass().getResource("/forwardSlash.gif")));
                 this.setLocation(x + 10, y - 150);
                 this.setBounds(x + 10, y - 150, 400, 300);
             }

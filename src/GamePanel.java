@@ -130,10 +130,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
         buttonsCreated = true;
 
-        gameTitle=new ImageIcon("./resources/gameTitle.png").getImage();
-        gameSet=new ImageIcon("./resources/gameSet.png").getImage();
+        gameTitle=new ImageIcon(getClass().getResource("/gameTitle.png")).getImage();
+        gameSet=new ImageIcon(getClass().getResource("/gameSet.png")).getImage();
         startCountDown=new JLabel();
-        startCountDown.setIcon(new ImageIcon("./resources/321GO.gif"));
+        startCountDown.setIcon(new ImageIcon(getClass().getResource("/321GO.gif")));
         startCountDown.setBounds(0,0,1000,500);
         startCountDown.setLocation(160,100);
         startCountDown.setVisible(false);

@@ -71,9 +71,9 @@ public class Players extends Rectangle {
         rand = new Random();
         characterExpression = new JLabel();
         if (playerNumber == 1) {
-            characterExpression.setIcon(new ImageIcon("./resources/eyeR.png"));
+            characterExpression.setIcon(new ImageIcon("/eyeR.png"));
         } else {
-            characterExpression.setIcon(new ImageIcon("./resources/eye.png"));
+            characterExpression.setIcon(new ImageIcon("/eye.png"));
         }
         characterExpression.setBounds(x, y, 20, 20);
         GameFrame.gamePanel.add(characterExpression);
@@ -143,10 +143,10 @@ public class Players extends Rectangle {
         if (!chargeAttacking) {
             if (keyCode == controls.get(buttons.get(1))) {
                 facingLeft = true;
-                characterExpression.setIcon(new ImageIcon("./resources/eye.png"));
+                characterExpression.setIcon(new ImageIcon(getClass().getResource("/eye.png")));
             } else if (keyCode == controls.get(buttons.get(3))) {
                 facingLeft = false;
-                characterExpression.setIcon(new ImageIcon("./resources/eyeR.png"));
+                characterExpression.setIcon(new ImageIcon(getClass().getResource("/eyeR.png")));
             }
         }
     }
